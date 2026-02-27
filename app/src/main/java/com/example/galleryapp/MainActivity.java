@@ -68,10 +68,9 @@ public class MainActivity extends AppCompatActivity {
     private void setupRecycler() {
         recyclerPhotos.setLayoutManager(new GridLayoutManager(this, 3));
         photoAdapter = new PhotoAdapter(photo -> {
-            // Toggle favorite when photo tapped
-            photo.isFavorite = !photo.isFavorite;
-            repository.setFavorite(photo, photo.isFavorite);
-            photoAdapter.notifyDataSetChanged();
+            Intent intent = new Intent(this, PhotoViewerActivity.class);
+            intent.putExtra(PhotoViewerActivity.EXTRA_PHOTO_URI, photo.uri.toString());
+            startActivity(intent);
         });
         recyclerPhotos.setAdapter(photoAdapter);
     }
