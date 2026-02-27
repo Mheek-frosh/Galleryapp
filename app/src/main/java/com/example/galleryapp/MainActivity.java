@@ -1,31 +1,77 @@
 package com.example.galleryapp;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
     private ImageButton buttonCamera;
     private BottomNavigationView bottomNav;
+    private RecyclerView recyclerPhotos;
+
+    private GalleryRepository repository;
+    private final List<Photo> allPhotos = new ArrayList<>();
+    private PhotoAdapter photoAdapter;
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    private final ActivityResultLauncher<String> permissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
+                if (granted) {
+                    loadPhotos();
+                } else {
+                    Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_LONG).show();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        repository = new GalleryRepository(this);
+
         buttonCamera = findViewById(R.id.buttonCamera);
         bottomNav = findViewById(R.id.bottomNav);
+        recyclerPhotos = findViewById(R.id.recyclerPhotos);
 
+        setupRecycler();
         setupCameraButton();
         setupBottomNav();
+        checkPermissionAndLoad();
+    }
+
+    private void setupRecycler() {
+        recyclerPhotos.setLayoutManager(new GridLayoutManager(this, 3));
+        photoAdapter = new PhotoAdapter(photo -> {
+            // Toggle favorite when photo tapped
+            photo.isFavorite = !photo.isFavorite;
+            repository.setFavorite(photo, photo.isFavorite);
+            photoAdapter.notifyDataSetChanged();
+        });
+        recyclerPhotos.setAdapter(photoAdapter);
     }
 
     private void setupCameraButton() {
@@ -55,6 +101,38 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private void checkPermissionAndLoad() {
+        String permission;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permission = Manifest.permission.READ_MEDIA_IMAGES;
+        } else {
+            permission = Manifest.permission.READ_EXTERNAL_STORAGE;
+        }
+
+        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+            loadPhotos();
+        } else {
+            permissionLauncher.launch(permission);
+        }
+    }
+
+    private void loadPhotos() {
+        executor.execute(() -> {
+            List<Photo> loaded = repository.loadPhotos();
+            runOnUiThread(() -> {
+                allPhotos.clear();
+                allPhotos.addAll(loaded);
+                photoAdapter.submitList(new ArrayList<>(allPhotos));
+            });
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        executor.shutdownNow();
     }
 }
 
