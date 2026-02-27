@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -123,10 +125,61 @@ public class MainActivity extends AppCompatActivity {
             List<Photo> loaded = repository.loadPhotos();
             runOnUiThread(() -> {
                 allPhotos.clear();
-                allPhotos.addAll(loaded);
+                if (loaded == null || loaded.isEmpty()) {
+                    // Seed with 6 bundled images when device has no photos
+                    long now = System.currentTimeMillis();
+                    allPhotos.add(new Photo(
+                            resourceUri(R.drawable.photo1),
+                            "Featured",
+                            now,
+                            false,
+                            false
+                    ));
+                    allPhotos.add(new Photo(
+                            resourceUri(R.drawable.photo2),
+                            "Featured",
+                            now - 1,
+                            false,
+                            false
+                    ));
+                    allPhotos.add(new Photo(
+                            resourceUri(R.drawable.photo3),
+                            "Featured",
+                            now - 2,
+                            false,
+                            false
+                    ));
+                    allPhotos.add(new Photo(
+                            resourceUri(R.drawable.photo4),
+                            "Featured",
+                            now - 3,
+                            false,
+                            false
+                    ));
+                    allPhotos.add(new Photo(
+                            resourceUri(R.drawable.photo5),
+                            "Featured",
+                            now - 4,
+                            false,
+                            false
+                    ));
+                    allPhotos.add(new Photo(
+                            resourceUri(R.drawable.photo6),
+                            "Featured",
+                            now - 5,
+                            false,
+                            false
+                    ));
+                } else {
+                    allPhotos.addAll(loaded);
+                }
                 photoAdapter.submitList(new ArrayList<>(allPhotos));
             });
         });
+    }
+
+    private Uri resourceUri(int drawableId) {
+        return Uri.parse("android.resource://" + getPackageName() + "/" + drawableId);
     }
 
     @Override
