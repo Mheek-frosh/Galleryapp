@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Gallery</string>
+
+    <string name="title_photos">Photos</string>
+    <string name="tab_photos">Photos</string>
+    <string name="tab_albums">Albums</string>
+    <string name="tab_memories">Memories</string>
+
+    <string name="month_june">Jun</string>
+    <string name="month_july">July</string>
+    <string name="view_all">View All →</string>
+    <string name="camera">Camera</string>
+
+    <string name="permission_rationale">Gallery needs access to your photos to show them.</string>
+    <string name="permission_denied">Permission denied. Enable storage permission in settings.</string>
+</resources>

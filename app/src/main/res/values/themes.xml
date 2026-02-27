@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Samsung-like light theme using blues and dark text -->
+    <style name="Theme.Galleryapp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/samsung_blue</item>
+        <item name="colorPrimaryVariant">@color/samsung_blue_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorAccent">@color/samsung_accent</item>
+
+        <item name="android:statusBarColor">@color/samsung_blue_dark</item>
+        <item name="android:navigationBarColor">@color/black</item>
+
+        <item name="android:windowBackground">@color/gallery_background</item>
+
+        <item name="materialCardViewStyle">@style/Widget.Gallery.Card</item>
+    </style>
+
+    <style name="Widget.Gallery.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="android:foreground">@drawable/selectable_item_background</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardCornerRadius">12dp</item>
+    </style>
+
+    <style name="Widget.Gallery.SectionButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:buttonTint">@color/samsung_blue</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+</resources>

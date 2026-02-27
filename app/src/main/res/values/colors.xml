@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Samsung-inspired palette -->
+    <color name="samsung_blue">#FF007AFF</color>
+    <color name="samsung_blue_dark">#FF0051A8</color>
+    <color name="samsung_accent">#FFFFC107</color>
+
+    <color name="gallery_background">#FF101018</color>
+    <color name="gallery_surface">#FF1C1C24</color>
+    <color name="gallery_surface_alt">#FF252532</color>
+
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#B3FFFFFF</color>
+    <color name="section_unselected">#80FFFFFF</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
