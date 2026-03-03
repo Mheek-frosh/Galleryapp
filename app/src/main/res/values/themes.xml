@@ -6,7 +6,6 @@
         <item name="android:statusBarColor">@color/auth_background</item>
         <item name="android:navigationBarColor">@color/auth_background</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="Theme.Galleryapp" parent="Theme.MaterialComponents.DayNight.NoActionBar">

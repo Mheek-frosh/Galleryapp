@@ -81,10 +81,10 @@ public class AlbumsActivity extends AppCompatActivity {
         executor.execute(() -> {
             List<Photo> loaded = repository.loadPhotos();
             int totalCount = (loaded != null && !loaded.isEmpty()) ? loaded.size() : 6;
-            int recentCount = Math.min(totalCount, 24);
-            int cameraCount = Math.min(totalCount, 48);
-            int screenshotsCount = Math.min(totalCount, 12);
-            int downloadsCount = Math.min(totalCount, 8);
+            int recentCount = totalCount > 0 ? Math.min(totalCount, 24) : 6;
+            int cameraCount = totalCount > 0 ? Math.min(totalCount, 48) : 6;
+            int screenshotsCount = totalCount > 0 ? Math.min(totalCount, 12) : 6;
+            int downloadsCount = totalCount > 0 ? Math.min(totalCount, 8) : 6;
 
             List<Folder> folders = new ArrayList<>();
             folders.add(new Folder(getString(R.string.section_recent), "recent", recentCount, resourceUri(R.drawable.photo1)));
