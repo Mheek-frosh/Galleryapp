@@ -22,17 +22,21 @@
     <string name="permission_denied">Permission denied. Enable storage permission in settings.</string>
 
     <!-- Auth -->
-    <string name="sign_in_title">Welcome back</string>
-    <string name="sign_in_subtitle">Sign in to continue to your gallery</string>
-    <string name="sign_up_title">Create account</string>
-    <string name="sign_up_subtitle">Join to save and organize your photos</string>
-    <string name="hint_name">Name</string>
+    <string name="sign_in_title">Login</string>
+    <string name="sign_in_subtitle">Please Sign in to continue.</string>
+    <string name="sign_up_title">Register</string>
+    <string name="sign_up_subtitle">Please register to login.</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_mobile">Mobile Number</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+    <string name="remember_me">Remember me next time</string>
+    <string name="dont_have_account">Don\'t have account?</string>
+    <string name="already_have_account">Already have account?</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_up">Sign up</string>
-    <string name="sign_in_go_to_sign_up">Sign up</string>
-    <string name="sign_up_go_to_sign_in">Already have an account? Sign in</string>
-    <string name="sign_in_empty_fields">Enter your email and password.</string>
+    <string name="sign_in_go_to_sign_up">Sign Up</string>
+    <string name="sign_up_go_to_sign_in">Sign In</string>
+    <string name="sign_in_empty_fields">Enter your username and password.</string>
     <string name="sign_up_empty_fields">Fill in all fields.</string>
 </resources>

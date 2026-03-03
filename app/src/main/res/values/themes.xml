@@ -2,6 +2,13 @@
 <resources>
 
     <!-- Samsung-like light theme using blues and dark text -->
+    <style name="Theme.Galleryapp.Auth" parent="Theme.Galleryapp">
+        <item name="android:statusBarColor">@color/auth_background</item>
+        <item name="android:navigationBarColor">@color/auth_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
     <style name="Theme.Galleryapp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/samsung_blue</item>
         <item name="colorPrimaryVariant">@color/samsung_blue_dark</item>
@@ -36,6 +43,22 @@
         <item name="android:textColor">@color/text_primary</item>
         <item name="cursorColor">@color/samsung_blue</item>
         <item name="endIconTint">@color/text_secondary</item>
+    </style>
+
+    <style name="Widget.Gallery.AuthTextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/auth_input_bg</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxStrokeColor">@color/auth_input_stroke_color</item>
+        <item name="boxStrokeWidth">1.5dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="hintTextColor">@color/auth_input_hint</item>
+        <item name="android:textColorHint">@color/auth_input_hint</item>
+        <item name="android:textColor">@color/auth_input_text</item>
+        <item name="cursorColor">@color/samsung_blue_dark</item>
+        <item name="endIconTint">@color/auth_input_hint</item>
     </style>
 
     <style name="Widget.Gallery.SectionButton" parent="@android:style/Widget.CompoundButton.RadioButton">

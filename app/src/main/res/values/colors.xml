@@ -16,4 +16,14 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Auth screens - light theme -->
+    <color name="auth_background">#FFFFFFFF</color>
+    <color name="auth_title">#FF1A2B4A</color>
+    <color name="auth_subtitle">#FF6B7B8C</color>
+    <color name="auth_input_bg">#FFF5F6F8</color>
+    <color name="auth_input_border">#FFE0E4E9</color>
+    <color name="auth_input_text">#FF2C3E50</color>
+    <color name="auth_input_hint">#FF9BA5B3</color>
+    <color name="auth_link">#FF0051A8</color>
 </resources>
