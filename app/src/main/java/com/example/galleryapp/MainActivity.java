@@ -27,6 +27,12 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Main gallery screen (Photos tab).
+ * Shows grid of photos from device or bundled photo1-6 when empty.
+ * Camera button launches device camera.
+ * Bottom nav: Photos (here), Albums, Memories.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ImageButton buttonCamera;
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
+    // Handles result when user grants/denies storage permission
     private final ActivityResultLauncher<String> permissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
                 if (granted) {
@@ -65,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         checkPermissionAndLoad();
     }
 
+    // Configure 3-column grid; tap opens PhotoViewerActivity
     private void setupRecycler() {
         recyclerPhotos.setLayoutManager(new GridLayoutManager(this, 3));
         photoAdapter = new PhotoAdapter(photo -> {
@@ -75,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerPhotos.setAdapter(photoAdapter);
     }
 
+    // Launch device camera app
     private void setupCameraButton() {
         buttonCamera.setOnClickListener(v -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -85,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Bottom nav: Photos stays here; Albums/Memories start their activities
     private void setupBottomNav() {
         bottomNav.setOnItemSelectedListener(this::onBottomItemSelected);
         bottomNav.setSelectedItemId(R.id.nav_photos);
@@ -104,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    // Use READ_MEDIA_IMAGES on Android 13+; otherwise READ_EXTERNAL_STORAGE
     private void checkPermissionAndLoad() {
         String permission;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -119,13 +130,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Load from MediaStore on background thread; if empty, use photo1-6 from drawable
     private void loadPhotos() {
         executor.execute(() -> {
             List<Photo> loaded = repository.loadPhotos();
             runOnUiThread(() -> {
                 allPhotos.clear();
                 if (loaded == null || loaded.isEmpty()) {
-                    // Seed with 6 bundled images when device has no photos
+                    // Fallback: populate with bundled photo1-6 so the grid always shows content
                     long now = System.currentTimeMillis();
                     allPhotos.add(new Photo(
                             resourceUri(R.drawable.photo1),
@@ -177,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Convert R.drawable.photo1 etc. to content URI for Glide/ImageView
     private Uri resourceUri(int drawableId) {
         return Uri.parse("android.resource://" + getPackageName() + "/" + drawableId);
     }

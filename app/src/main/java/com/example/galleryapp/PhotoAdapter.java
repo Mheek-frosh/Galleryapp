@@ -14,6 +14,10 @@ import com.example.galleryapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * RecyclerView adapter for photo grid. Uses Glide to load thumbnails from Uri.
+ * Tap calls OnPhotoClickListener.
+ */
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
 
     public interface OnPhotoClickListener {
@@ -73,6 +77,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
             });
         }
 
+        // Load image with Glide; show favorite/saved icons if set
         void bind(Photo photo) {
             this.current = photo;
             Glide.with(thumb.getContext())

@@ -23,6 +23,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Albums tab: list of device folders (Recent, Camera roll, Screenshots, Downloads).
+ * Each folder uses photo1-4 as cover thumbnails.
+ * Tapping a folder -> FolderDetailActivity with name and key passed as extras.
+ */
 public class AlbumsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerFolders;
@@ -47,6 +52,7 @@ public class AlbumsActivity extends AppCompatActivity {
         recyclerFolders = findViewById(R.id.recyclerFolders);
         recyclerFolders.setLayoutManager(new LinearLayoutManager(this));
         recyclerFolders.setHasFixedSize(true);
+        // Tap folder -> open FolderDetailActivity with name and key for filtering
         folderAdapter = new FolderAdapter(folder -> {
             Intent intent = new Intent(this, FolderDetailActivity.class);
             intent.putExtra(FolderDetailActivity.EXTRA_FOLDER_NAME, folder.name);
@@ -77,6 +83,7 @@ public class AlbumsActivity extends AppCompatActivity {
         }
     }
 
+    // Build folder list: Recent, Camera roll, Screenshots, Downloads. Cover images = photo1-4.
     private void loadFolders() {
         executor.execute(() -> {
             List<Photo> loaded = repository.loadPhotos();
@@ -86,6 +93,7 @@ public class AlbumsActivity extends AppCompatActivity {
             int screenshotsCount = totalCount > 0 ? Math.min(totalCount, 12) : 6;
             int downloadsCount = totalCount > 0 ? Math.min(totalCount, 8) : 6;
 
+            // Each folder: name, key (for filterByFolder), count, cover drawable
             List<Folder> folders = new ArrayList<>();
             folders.add(new Folder(getString(R.string.section_recent), "recent", recentCount, resourceUri(R.drawable.photo1)));
             folders.add(new Folder(getString(R.string.section_camera_roll), "camera_roll", cameraCount, resourceUri(R.drawable.photo2)));

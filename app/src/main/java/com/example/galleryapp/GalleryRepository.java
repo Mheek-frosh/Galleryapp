@@ -16,6 +16,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Data layer: loads photos from MediaStore, filters by folder, persists favorites/saved.
+ */
 public class GalleryRepository {
 
     private final Context context;
@@ -84,7 +87,11 @@ public class GalleryRepository {
     }
 
     /**
-     * Filters loaded photos by folder type. Keys: recent, camera_roll, screenshots, downloads
+     * Filter photos by folder type (folderKey from Folder.key).
+     * recent -> all photos
+     * camera_roll -> bucket contains "camera" or "dcim"
+     * screenshots -> bucket contains "screenshot"
+     * downloads -> bucket contains "download"
      */
     public List<Photo> filterByFolder(List<Photo> all, String folderKey) {
         if (all == null) return new ArrayList<>();
@@ -108,6 +115,7 @@ public class GalleryRepository {
         return filtered;
     }
 
+    // Group photos by bucket name; create Folder for each with cover = first photo
     public List<Folder> buildFolders(List<Photo> allPhotos) {
         Map<String, List<Photo>> byFolder = new HashMap<>();
         for (Photo p : allPhotos) {

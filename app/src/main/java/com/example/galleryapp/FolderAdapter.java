@@ -15,6 +15,10 @@ import com.example.galleryapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * RecyclerView adapter for folder list. Shows cover thumbnail, name, photo count.
+ * Tap calls OnFolderClickListener with the Folder.
+ */
 public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderViewHolder> {
 
     public interface OnFolderClickListener {
@@ -74,6 +78,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
             });
         }
 
+        // Set folder name, count; load cover with Glide
         void bind(Folder folder) {
             this.current = folder;
             name.setText(folder.name);

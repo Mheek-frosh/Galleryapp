@@ -2,6 +2,9 @@ package com.example.galleryapp;
 
 import android.net.Uri;
 
+/**
+ * Model: single photo with uri, folder (bucket), date, favorite/saved flags.
+ */
 public class Photo {
     public final Uri uri;
     public final String folderName;

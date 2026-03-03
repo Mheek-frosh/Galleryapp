@@ -2,6 +2,9 @@ package com.example.galleryapp;
 
 import android.net.Uri;
 
+/**
+ * Model: album/folder with name, key (for filtering), photo count, cover image URI.
+ */
 public class Folder {
     public final String name;
     public final String key;
