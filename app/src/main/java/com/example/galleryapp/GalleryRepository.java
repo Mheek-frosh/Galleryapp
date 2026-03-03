@@ -83,6 +83,31 @@ public class GalleryRepository {
         return photos;
     }
 
+    /**
+     * Filters loaded photos by folder type. Keys: recent, camera_roll, screenshots, downloads
+     */
+    public List<Photo> filterByFolder(List<Photo> all, String folderKey) {
+        if (all == null) return new ArrayList<>();
+        if ("recent".equals(folderKey)) return new ArrayList<>(all);
+
+        List<Photo> filtered = new ArrayList<>();
+        String lower = folderKey != null ? folderKey.toLowerCase(Locale.ROOT) : "";
+
+        for (Photo p : all) {
+            String bucket = p.folderName != null ? p.folderName.toLowerCase(Locale.ROOT) : "";
+            boolean match = false;
+            if ("camera_roll".equals(lower)) {
+                match = bucket.contains("camera") || bucket.contains("dcim");
+            } else if ("screenshots".equals(lower)) {
+                match = bucket.contains("screenshot");
+            } else if ("downloads".equals(lower)) {
+                match = bucket.contains("download");
+            }
+            if (match) filtered.add(p);
+        }
+        return filtered;
+    }
+
     public List<Folder> buildFolders(List<Photo> allPhotos) {
         Map<String, List<Photo>> byFolder = new HashMap<>();
         for (Photo p : allPhotos) {
@@ -100,7 +125,8 @@ public class GalleryRepository {
             String name = entry.getKey();
             List<Photo> list = entry.getValue();
             Uri cover = list.isEmpty() ? null : list.get(0).uri;
-            folders.add(new Folder(name, list.size(), cover));
+            String key = name != null ? name.toLowerCase(Locale.ROOT).replace(" ", "_") : "unknown";
+            folders.add(new Folder(name, key, list.size(), cover));
         }
 
         folders.sort((a, b) -> a.name.toLowerCase(Locale.ROOT).compareTo(b.name.toLowerCase(Locale.ROOT)));

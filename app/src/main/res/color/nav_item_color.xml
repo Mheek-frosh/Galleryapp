@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Active tab: solid black, like the inspo UI -->
-    <item android:state_checked="true" android:color="@color/black" />
-    <!-- Inactive tabs: soft grey -->
-    <item android:state_checked="false" android:color="@color/text_secondary" />
+    <item android:state_checked="true" android:color="@color/samsung_blue" />
+    <item android:color="@color/text_secondary" />
 </selector>
 

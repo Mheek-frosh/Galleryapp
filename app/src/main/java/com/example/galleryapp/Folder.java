@@ -4,11 +4,13 @@ import android.net.Uri;
 
 public class Folder {
     public final String name;
+    public final String key;
     public final int count;
     public final Uri coverUri;
 
-    public Folder(String name, int count, Uri coverUri) {
+    public Folder(String name, String key, int count, Uri coverUri) {
         this.name = name;
+        this.key = key;
         this.count = count;
         this.coverUri = coverUri;
     }

@@ -8,9 +8,31 @@
 
     <string name="month_june">Jun</string>
     <string name="month_july">July</string>
-    <string name="view_all">View All →</string>
+    <string name="view_all">View All</string>
+    <string name="section_recent">Recent</string>
+    <string name="section_camera_roll">Camera roll</string>
+    <string name="section_screenshots">Screenshots</string>
+    <string name="section_downloads">Downloads</string>
+    <string name="device_folders">Device folders</string>
+    <string name="folder_count">%d photos</string>
     <string name="camera">Camera</string>
+    <string name="back">Back</string>
 
     <string name="permission_rationale">Gallery needs access to your photos to show them.</string>
     <string name="permission_denied">Permission denied. Enable storage permission in settings.</string>
+
+    <!-- Auth -->
+    <string name="sign_in_title">Welcome back</string>
+    <string name="sign_in_subtitle">Sign in to continue to your gallery</string>
+    <string name="sign_up_title">Create account</string>
+    <string name="sign_up_subtitle">Join to save and organize your photos</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_up">Sign up</string>
+    <string name="sign_in_go_to_sign_up">Sign up</string>
+    <string name="sign_up_go_to_sign_in">Already have an account? Sign in</string>
+    <string name="sign_in_empty_fields">Enter your email and password.</string>
+    <string name="sign_up_empty_fields">Fill in all fields.</string>
 </resources>

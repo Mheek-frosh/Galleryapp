@@ -16,6 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Galleryapp">
         <activity
+            android:name=".FolderDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Galleryapp" />
+
+        <activity
             android:name=".AlbumsActivity"
             android:exported="false"
             android:label="@string/tab_albums"
@@ -34,8 +39,20 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/app_name"
+            android:theme="@style/Theme.Galleryapp" />
+
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false"
+            android:label="@string/sign_up_title"
+            android:theme="@style/Theme.Galleryapp" />
+
+        <activity
+            android:name=".SignInActivity"
+            android:exported="true"
+            android:label="@string/sign_in_title"
             android:theme="@style/Theme.Galleryapp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

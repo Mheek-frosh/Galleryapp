@@ -8,6 +8,7 @@
     <color name="gallery_background">#FF101018</color>
     <color name="gallery_surface">#FF1C1C24</color>
     <color name="gallery_surface_alt">#FF252532</color>
+    <color name="input_background">#FF2A2A36</color>
 
     <color name="text_primary">#FFFFFFFF</color>
     <color name="text_secondary">#B3FFFFFF</color>

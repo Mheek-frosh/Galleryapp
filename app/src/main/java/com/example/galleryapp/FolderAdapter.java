@@ -77,7 +77,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.FolderView
         void bind(Folder folder) {
             this.current = folder;
             name.setText(folder.name);
-            count.setText(String.valueOf(folder.count));
+            count.setText(itemView.getContext().getString(R.string.folder_count, folder.count));
 
             if (folder.coverUri != null) {
                 Glide.with(thumb.getContext())

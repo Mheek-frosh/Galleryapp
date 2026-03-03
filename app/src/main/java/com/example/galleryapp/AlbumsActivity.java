@@ -7,14 +7,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,18 +25,15 @@ import java.util.concurrent.Executors;
 
 public class AlbumsActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerRecent;
-    private PhotoAdapter photoAdapter;
+    private RecyclerView recyclerFolders;
+    private FolderAdapter folderAdapter;
     private GalleryRepository repository;
-    private final List<Photo> recentPhotos = new ArrayList<>();
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private final ActivityResultLauncher<String> permissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), granted -> {
                 if (granted) {
-                    loadRecent();
-                } else {
-                    Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_LONG).show();
+                    loadFolders();
                 }
             });
 
@@ -48,14 +44,16 @@ public class AlbumsActivity extends AppCompatActivity {
 
         repository = new GalleryRepository(this);
 
-        recyclerRecent = findViewById(R.id.recyclerRecent);
-        recyclerRecent.setLayoutManager(new GridLayoutManager(this, 3));
-        photoAdapter = new PhotoAdapter(photo -> {
-            Intent intent = new Intent(this, PhotoViewerActivity.class);
-            intent.putExtra(PhotoViewerActivity.EXTRA_PHOTO_URI, photo.uri.toString());
+        recyclerFolders = findViewById(R.id.recyclerFolders);
+        recyclerFolders.setLayoutManager(new LinearLayoutManager(this));
+        recyclerFolders.setHasFixedSize(true);
+        folderAdapter = new FolderAdapter(folder -> {
+            Intent intent = new Intent(this, FolderDetailActivity.class);
+            intent.putExtra(FolderDetailActivity.EXTRA_FOLDER_NAME, folder.name);
+            intent.putExtra(FolderDetailActivity.EXTRA_FOLDER_KEY, folder.key);
             startActivity(intent);
         });
-        recyclerRecent.setAdapter(photoAdapter);
+        recyclerFolders.setAdapter(folderAdapter);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setOnItemSelectedListener(this::onBottomItemSelected);
@@ -73,67 +71,28 @@ public class AlbumsActivity extends AppCompatActivity {
         }
 
         if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
-            loadRecent();
+            loadFolders();
         } else {
             permissionLauncher.launch(permission);
         }
     }
 
-    private void loadRecent() {
+    private void loadFolders() {
         executor.execute(() -> {
             List<Photo> loaded = repository.loadPhotos();
-            runOnUiThread(() -> {
-                recentPhotos.clear();
-                if (loaded == null || loaded.isEmpty()) {
-                    long now = System.currentTimeMillis();
-                    recentPhotos.add(new Photo(
-                            resourceUri(R.drawable.photo1),
-                            "Recently added",
-                            now,
-                            false,
-                            false
-                    ));
-                    recentPhotos.add(new Photo(
-                            resourceUri(R.drawable.photo2),
-                            "Recently added",
-                            now - 1,
-                            false,
-                            false
-                    ));
-                    recentPhotos.add(new Photo(
-                            resourceUri(R.drawable.photo3),
-                            "Recently added",
-                            now - 2,
-                            false,
-                            false
-                    ));
-                    recentPhotos.add(new Photo(
-                            resourceUri(R.drawable.photo4),
-                            "Recently added",
-                            now - 3,
-                            false,
-                            false
-                    ));
-                    recentPhotos.add(new Photo(
-                            resourceUri(R.drawable.photo5),
-                            "Recently added",
-                            now - 4,
-                            false,
-                            false
-                    ));
-                    recentPhotos.add(new Photo(
-                            resourceUri(R.drawable.photo6),
-                            "Recently added",
-                            now - 5,
-                            false,
-                            false
-                    ));
-                } else {
-                    int max = Math.min(loaded.size(), 60);
-                    recentPhotos.addAll(loaded.subList(0, max));
-                }
-                photoAdapter.submitList(new ArrayList<>(recentPhotos));
-            });
+            int totalCount = (loaded != null && !loaded.isEmpty()) ? loaded.size() : 6;
+            int recentCount = Math.min(totalCount, 24);
+            int cameraCount = Math.min(totalCount, 48);
+            int screenshotsCount = Math.min(totalCount, 12);
+            int downloadsCount = Math.min(totalCount, 8);
+
+            List<Folder> folders = new ArrayList<>();
+            folders.add(new Folder(getString(R.string.section_recent), "recent", recentCount, resourceUri(R.drawable.photo1)));
+            folders.add(new Folder(getString(R.string.section_camera_roll), "camera_roll", cameraCount, resourceUri(R.drawable.photo2)));
+            folders.add(new Folder(getString(R.string.section_screenshots), "screenshots", screenshotsCount, resourceUri(R.drawable.photo3)));
+            folders.add(new Folder(getString(R.string.section_downloads), "downloads", downloadsCount, resourceUri(R.drawable.photo4)));
+
+            runOnUiThread(() -> folderAdapter.submitList(folders));
         });
     }
 
@@ -145,11 +104,13 @@ public class AlbumsActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.nav_photos) {
             startActivity(new Intent(this, MainActivity.class));
+            finish();
             return true;
         } else if (id == R.id.nav_albums) {
             return true;
         } else if (id == R.id.nav_memories) {
             startActivity(new Intent(this, MemoriesActivity.class));
+            finish();
             return true;
         }
         return false;
@@ -161,4 +122,3 @@ public class AlbumsActivity extends AppCompatActivity {
         executor.shutdownNow();
     }
 }
-
